@@ -7,12 +7,13 @@ class MethodsTest < Minitest::Test
 
     # UNIT TESTS FOR METHOD check_args(args)
     # Equivalence classes:
-    # 1 argument, is the name of existing file -> return true
-    # 1 argument, not the name of existing file -> return false
-    # Not just 1 argument -> return false
+    # String, is the name of existing file -> true
+    # Single element Array, has name of existing file -> true
+    # String, not the name of existing file -> false
+    # Array with more than one element -> false
 
-    # Valid argument
-    def test_check_args_valid
+    # Valid argument, String
+    def test_check_args_valid_string
         assert_equal true, check_args("sample.txt")
     end
 
