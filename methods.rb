@@ -10,3 +10,11 @@ def check_args(args)
         false
     end     
 end
+
+# Checks for valid address
+
+# Checks for valid hash
+
+# Checks for valid timestamp
+
+# Checks for valid block syntax
