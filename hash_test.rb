@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 
-require_relative 'methods'
+require_relative 'hash'
 
 # Test file for verifier.rb
 class MethodsTest < Minitest::Test
