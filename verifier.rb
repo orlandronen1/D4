@@ -13,4 +13,5 @@ block_array = create_array(text)
 # It should never return true, will only let us know if it fails.
 verify_block_number(block_array)
 verify_block_pipes(block_array)
+verify_prev_hash_match(block_array)
 
