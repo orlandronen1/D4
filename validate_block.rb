@@ -1,12 +1,14 @@
 def create_maps(text)
-	maps = Array.new
+	maps = []
 	array=text.split("\n")
 	array.each{|x|
 		# We'll need to do some validating of the blocks here
 		# Check the number of pipes
-		# Check the number of elements after splitting at pipe
-		# Check for nulls
+        return false if x.count('|') != 4
+		# Check for nulls is done in each method later
 		elem = x.split('|')
+        # Check the number of elements after splitting at pipe
+        return false if elem.length != 5
 		kv_map = {id: elem[0], prev_hash: elem[1], transactions: elem[2], time_stamp: elem[3], hash: elem[4]}
 		maps.push(kv_map)
 	}
