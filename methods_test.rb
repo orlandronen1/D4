@@ -34,4 +34,27 @@ class MethodsTest < Minitest::Test
         assert_equal false, check_args(args)
     end
 
+
+    # UNIT TESTS FOR METHOD hash_block(block)
+    # Properties:
+    # The return shall be a string
+    # The value of the hexadecimal value the String represents shall be < 65536 and >= 0
+
+    # Check that the return is a string
+    def test_hash_block_is_string
+      property_of {
+        string
+      }.check() { |s|
+        assert_kind_of String, hash_block(s), "string property didn't return String type"
+      }
+    end
+
+    # Check that the value of the String returned is 0 < x < 65536
+    def test_hash_block_correct_range
+      property_of {
+        string
+      }.check() { |s|
+        assert_includes 0..65535, hash_block(s).to_i, "Return of hash_block wasn't in right range"
+      }
+    end
 end
