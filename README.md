@@ -21,3 +21,28 @@ Deliverable 4 for Software Quality Assurance
     - Example of correct syntax:
         - 0|0|SYSTEM>569274(100)|1553184699.650330000|288d
         - 1|288d|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2
+
+## Variables to store:
+- Entire block as string?
+- Block number
+- Hash of previous block
+- All addresses and their billcoin balances
+
+## Verification flow:
+1. Read in new block
+    1. Can split blocks by "|" character. If any empty strings or not 5 strings made from split -> Cannot parse line
+2. Verify block number
+3. Verify "|"
+4. Verify hash of previous block
+5. Verify transactions
+    1. Split by ":". If any empty strings -> cannot parse line
+    1. Verify from address
+    2. Verify ">"
+    3. Verify to address
+    4. Verify amount -> "(#{non-negative integer})"
+    5. Update balances for both addresses
+6. Verify timestamp
+    1. 2 integers separated by "."
+    2. Timestamp of current block must be strictly higher than that of previous block
+7. Verify hash of current block
+    1. Use all characters in the block line up to the final "|", not inclusive
