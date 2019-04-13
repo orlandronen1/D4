@@ -6,5 +6,6 @@ require_relative 'validate_block'
 exit 1 unless check_args ARGV
 
 # Open the file and pass the text to validate_block
-text=File.open(ARGV).read
+text=File.open(ARGV[0]).read
 
+create_array(text)
