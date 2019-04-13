@@ -11,10 +11,12 @@ def check_args(args)
     end     
 end
 
-# Checks for valid address
-
-# Checks for valid hash
-
-# Checks for valid timestamp
-
-# Checks for valid block syntax
+# Calculates the hash for a block
+# Assumes the string entered does not include the final pipe and own hash
+def hash_block(block)
+  chars = block.unpack('U') # Get array of UTF-8 values of each char in block
+  hash_calc = 0
+  chars.each { |c| hash_calc += ( ((c**3000) + (c**c) - (3**c)) * (7**x) )}
+  hash_calc %= 65536  # Modulo
+  hash_calc.to_s(16)  # Convert to string of hexadecimal representation
+end
