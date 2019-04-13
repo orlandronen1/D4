@@ -5,7 +5,6 @@ def create_array(text)
 end
 
 def varify_block_number(array)
-  a = Array.new
-  array.each{|x| a.push(x[0].to_i)} 
-  puts a
+  array.each_with_index{|x, i| 
+  	puts false if x[0].to_i != i }
 end

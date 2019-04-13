@@ -8,4 +8,8 @@ exit 1 unless check_args ARGV
 # Open the file and pass the text to validate_block
 text=File.open(ARGV[0]).read
 block_array = create_array(text)
+
+# We can set the error if this returns false and print it out after. 
+# It should never return true, will only let us know if it fails.
 varify_block_number(block_array)
+
