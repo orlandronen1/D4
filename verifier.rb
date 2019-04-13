@@ -7,5 +7,5 @@ exit 1 unless check_args ARGV
 
 # Open the file and pass the text to validate_block
 text=File.open(ARGV[0]).read
-
-create_array(text)
+block_array = create_array(text)
+varify_block_number(block_array)
