@@ -57,42 +57,41 @@ end
 
 # following steps of number 5 in verification flow doc
 def verify_transactions(maps)
-  balance_map = Hash.new
-  maps.each_with_index do |x, i|
+  # hash literal same as Hash.new
+  balance_map = {}
+  maps.each do |x|
     trans = x[:transactions].split(':')
     trans.each_with_index do |y, i|
       # verifing from  address vaild/correct format
       from_addr = y[0..5]
-      if !balance_map.has_key?(from_addr)
-          balance_map[from_addr] = 0
-      end
-      if(i == trans.length-1)
-        return false unless from_addr == "SYSTEM"
+      balance_map[from_addr] = 0 unless balance_map.key?(from_addr)
+      if i == trans.length - 1
+        return false unless from_addr == 'SYSTEM'
       else
         from_addr.delete!('0123456789')
         return false unless from_addr.empty?
       end
       # verifing > in position 7
       return false unless y[6] == '>'
+
       # verifing to address valid/correct format
       to_addr = y[7..12]
-      if !balance_map.has_key?(to_addr)
-          balance_map[to_addr] = 0
-      end
-      #puts balance_map[to_addr]
+      balance_map[to_addr] = 0 unless balance_map.key?(to_addr)
+      # puts balance_map[to_addr]
       to_addr.delete!('0123456789')
       return false unless to_addr.empty?
-      open_paren = y[13]
-      closed_paren = y[y.length - 1]
-      return false unless open_paren == '('
-      return false unless closed_paren == ')'
+      # open_paren = y[13]
+      # closed_paren = y[y.length - 1]
+      return false unless y[13] == '('
+      return false unless y[y.length - 1] == ')'
+
       amount_num = y[14..y.length - 2]
-      
       balance_map[y[0..5]] -= amount_num.to_i
       balance_map[y[7..12]] += amount_num.to_i
       amount_num.delete!('0123456789')
       return false unless amount_num.empty?
     end
   end
-  return balance_map  
+  # really rubocop
+  balance_map = balance_map
 end
