@@ -57,17 +57,29 @@ end
 
 # following steps of number 5 in verification flow doc
 def verify_transactions(maps)
-  maps.each do |x|
+  balance_map = Hash.new
+  maps.each_with_index do |x, i|
     trans = x[:transactions].split(':')
     trans.each_with_index do |y, i|
       # verifing from  address vaild/correct format
       from_addr = y[0..5]
-      from_addr.delete!('0123456789')
-      return false unless from_addr.empty?
+      if !balance_map.has_key?(from_addr)
+          balance_map[from_addr] = 0
+      end
+      if(i == trans.length-1)
+        return false unless from_addr == "SYSTEM"
+      else
+        from_addr.delete!('0123456789')
+        return false unless from_addr.empty?
+      end
       # verifing > in position 7
       return false unless y[6] == '>'
       # verifing to address valid/correct format
       to_addr = y[7..12]
+      if !balance_map.has_key?(to_addr)
+          balance_map[to_addr] = 0
+      end
+      #puts balance_map[to_addr]
       to_addr.delete!('0123456789')
       return false unless to_addr.empty?
       open_paren = y[13]
@@ -75,8 +87,12 @@ def verify_transactions(maps)
       return false unless open_paren == '('
       return false unless closed_paren == ')'
       amount_num = y[14..y.length - 2]
+      
+      balance_map[y[0..5]] -= amount_num.to_i
+      balance_map[y[7..12]] += amount_num.to_i
       amount_num.delete!('0123456789')
       return false unless amount_num.empty?
     end
-
+  end
+  return balance_map  
 end
