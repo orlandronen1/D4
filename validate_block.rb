@@ -119,7 +119,7 @@ end
 
 def print_output(balance_map)
   print_array = []
-  balance_map = balance_map.sort_by { |k| k }.to_h
+  balance_map = balance_map.sort
   balance_map.each do |k, v|
     next if k == 'SYSTEM'
 
