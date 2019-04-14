@@ -117,13 +117,17 @@ def verify_hash(text)
   end
 end
 
-def print_output(balance_map)
+def print_output(balance_map, last_line)
   print_array = []
   balance_map = balance_map.sort
   balance_map.each do |k, v|
     next if k == 'SYSTEM'
 
-    puts "Invalid block, address #{k} has #{v} billcoins!" if v.negative?
+    if v.negative?
+      puts "Line #{last_line}: Invalid block, address #{k} has #{v} billcoins!"
+      puts 'BLOCKCHAIN INVALID!!'
+      exit 1
+    end
     print_array.push("#{k}: #{v} billcoins\n") if v.positive?
   end
   puts print_array
