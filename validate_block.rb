@@ -114,8 +114,12 @@ def verify_time_stamp(maps)
 
     prev_time = maps[i - 1][:time_stamp].split('.')
     return false unless prev_time.length == 2
+    return false unless curr_time[0].to_i >= prev_time[0].to_i
     return false unless curr_time[1].to_i > prev_time[1].to_i
   end
+  
+  # If nothing wrong, return true
+  true
 end
 
 def verify_hash(text)
@@ -126,4 +130,7 @@ def verify_hash(text)
     hex = hash_block(hash_str)
     return false unless hex == s[pipe_index + 1..-1]
   end
+  
+  # If nothing wrong, return true
+  true
 end

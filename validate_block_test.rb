@@ -125,6 +125,9 @@ class ValidateBlockTest < Minitest::Test
   # => Have non-negative integers for each transaction
   # => Have proper syntax: FROM_ADDR>TO_ADDR(VAL)
   # => => Each transaction is separated by ':'
+  # If all of these properties are met, the method returns a hashmap of addresses
+  #   and their balances.
+  # Else, it returns false.
 
   def test_verify_transactions_valid
     balances = verify_transactions(create_maps(@full))
@@ -172,6 +175,51 @@ class ValidateBlockTest < Minitest::Test
     map = create_maps("0|0|SYSTEM569274(100)|1553184699.650330000|288aa
 1|288aa|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2")
     assert_equal false, verify_transactions(map)
+  end
+
+  # UNIT TESTS FOR METHOD verify_time_stamp(maps)
+  # Properties of valid timestamps:
+  # => Two non-negative integers separated by a '.'
+  # => If more than one block present, time of a block is stricly greater 
+  #      than that of the previous block
+  # If all of these properties are met, the method returns true.
+  # Else, it returns false.
+
+  def test_verify_time_stamp_valid
+    assert_equal true, verify_time_stamp(create_maps(@full))
+  end
+
+  def test_verify_time_stamp_invalid_no_period
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288d
+1|288d|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699652449000|92a2")
+    assert_equal false, verify_time_stamp(map)
+  end
+
+  def test_verify_time_stamp_invalid_seconds_less_than_first
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288d
+1|288d|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184698.652449000|92a2")
+    assert_equal false, verify_time_stamp(map)
+  end
+
+  def test_verify_time_stamp_invalid_nanoseconds_less_than_first
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288d
+1|288d|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.650320000|92a2")
+    assert_equal false, verify_time_stamp(map)
+  end
+
+  # UNIT TESTS FOR METHOD verify_hash(text)
+  # Equivalence classes:
+  # Hash of block is correct -> returns true
+  # Hash of block is not correct -> returns false
+
+  def test_verify_hash_valid
+    assert_equal true, verify_hash(@full)
+  end
+
+  def test_verify_hash_invalid_not_equal
+    str = "0|0|SYSTEM>569274(100)|1553184699.650330000|288e
+1|288d|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2"
+    assert_equal false, verify_hash(str)
   end
 
 end
