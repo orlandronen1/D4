@@ -118,3 +118,15 @@ def verify_hash(text)
     return false unless hex == s[pipe_index + 1..-1]
   end
 end
+
+def print_output(balance_map)
+  print_array = []
+  balance_map.each do |k, v|
+    next if k == 'SYSTEM'
+    puts "Invalid block, address #{k} has #{v} billcoins!" if v < 0
+    if v > 0
+      print_array.push("#{k}: #{v} billcoins\n")
+    end
+  end
+  puts print_array
+end
