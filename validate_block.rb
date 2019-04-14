@@ -110,10 +110,11 @@ def verify_time_stamp(maps)
 end
 
 def verify_hash(text)
-  array = text.split('\n')
+  array = text.split("\n")
   array.each do |s|
-    hash_str = s[0...-5]
+    pipe_index = s.rindex('|')
+    hash_str = s[0...pipe_index]
     hex = hash_block(hash_str)
-    return false unless hex == s[-4..-1]
+    return false unless hex == s[pipe_index + 1..-1]
   end
 end
