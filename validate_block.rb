@@ -20,6 +20,7 @@ def create_maps(text)
     kv_map = { id: elem[0], prev_hash: elem[1], transactions: elem[2], time_stamp: elem[3], hash: elem[4] }
     kv_map.each do |key, val|
       return false if val == ''
+      return false if key == ''
     end
     maps.push(kv_map)
   end
@@ -145,7 +146,6 @@ def verify_time_stamp(maps)
       return false
     end
   end
-  
   # If nothing wrong, return true
   true
 end
@@ -162,7 +162,6 @@ def verify_hash(text)
       return false
     end
   end
-  
   # If nothing wrong, return true
   true
 end
