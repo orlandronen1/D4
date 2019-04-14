@@ -2,7 +2,7 @@ require 'minitest/autorun'
 
 require_relative 'hash'
 
-# Test file for verifier.rb
+# Test file for hash_test.rb
 class MethodsTest < Minitest::Test
 
     # UNIT TESTS FOR METHOD check_args(args)
@@ -30,7 +30,6 @@ class MethodsTest < Minitest::Test
     # More than one argument
     def test_check_args_too_many_args
         args = ["too", "many", "arguments"]
-        puts args.length
         assert_equal false, check_args(args)
     end
 
