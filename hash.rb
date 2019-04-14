@@ -7,7 +7,9 @@ def check_args(args)
     elsif args.is_a? String and File.exist? args
         true
     else
-        false
+      puts 'Usage: ruby verifier.rb <name_of_file>'
+      puts '     name_of_file = name of file to verify'
+      false
     end     
 end
 
