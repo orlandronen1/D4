@@ -81,8 +81,43 @@ class ValidateBlockTest < Minitest::Test
   end
 
   # UNIT TESTS FOR METHOD verify_prev_hash_match(maps)
-  # Equivalence classes:
-  # 
+  # Properties of valid hashes:
+  # => First hash is 0
+  # => Hash at end of a block matches hash at beginning of next block
+  # => Hashes consist only of hexadecimal digits
+  # => Hashes are at most 4 digits long
+  # => Hashes are not empty (Assured in create_maps())
+  # If all of these properties are met, the method returns true
+  # Else, it returns false
+
+  def test_verify_prev_hash_match_valid
+    map = create_maps(@full)
+    assert_equal true, verify_prev_hash_match(map)
+  end
+
+  def test_verify_prev_hash_match_invalid_non_matching_hashes
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288a
+1|288d|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_prev_hash_match(map)
+  end
+
+  def test_verify_prev_hash_match_invalid_first_hash_not_zero
+    map = create_maps("0|1|SYSTEM>569274(100)|1553184699.650330000|288a
+1|288d|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_prev_hash_match(map)
+  end
+
+  def test_verify_prev_hash_match_invalid_not_only_hex
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288g
+1|288g|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_prev_hash_match(map)
+  end
+
+  def test_verify_prev_hash_match_invalid_longer_than_4_digits
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288aa
+1|288aa|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_prev_hash_match(map)
+  end
 
   # UNIT TESTS FOR METHOD verify_transactions(maps)
   # Equivalence classes:
