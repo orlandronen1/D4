@@ -13,4 +13,6 @@ maps = create_maps(text)
 # It should never return true, will only let us know if it fails.
 verify_block_number(maps)
 verify_prev_hash_match(maps)
+balance = verify_transactions(maps)
+
 
