@@ -30,7 +30,6 @@ class MethodsTest < Minitest::Test
     # More than one argument
     def test_check_args_too_many_args
         args = ["too", "many", "arguments"]
-        puts args.length
         assert_equal false, check_args(args)
     end
 

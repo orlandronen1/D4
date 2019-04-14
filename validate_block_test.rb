@@ -120,8 +120,58 @@ class ValidateBlockTest < Minitest::Test
   end
 
   # UNIT TESTS FOR METHOD verify_transactions(maps)
-  # Equivalence classes:
-  # 
+  # Properties of valid transactions:
+  # => Have valid to/from addresses
+  # => Have non-negative integers for each transaction
+  # => Have proper syntax: FROM_ADDR>TO_ADDR(VAL)
+  # => => Each transaction is separated by ':'
 
+  def test_verify_transactions_valid
+    balances = verify_transactions(create_maps(@full))
+    assert_kind_of Hash, balances
+    balances.each do |addr, balance|
+      if addr == "SYSTEM"
+        assert balance < 0
+      else
+        assert balance >= 0
+      end
+    end
+  end
+
+  def test_verify_transactions_invalid_addrs_wrong_length
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288aa
+1|288aa|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>53220(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_transactions(map)
+  end
+
+  def test_verify_transactions_invalid_addrs_use_not_decimal_digits
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288aa
+1|288aa|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>53226A(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_transactions(map)
+  end
+
+  def test_verify_transactions_invalid_negative_transaction
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288aa
+1|288aa|569274>735567(12):735567>561180(-3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_transactions(map)
+  end
+
+  def test_verify_transactions_invalid_missing_open_paren
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288aa
+1|288aa|569274>735567(12):735567>561180(3):735567>6898812):SYSTEM>532260(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_transactions(map)
+  end
+
+  def test_verify_transactions_invalid_missing_close_paren
+    map = create_maps("0|0|SYSTEM>569274(100)|1553184699.650330000|288aa
+1|288aa|569274>735567(12:735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_transactions(map)
+  end
+
+  def test_verify_transactions_invalid_missing_addr_separator
+    map = create_maps("0|0|SYSTEM569274(100)|1553184699.650330000|288aa
+1|288aa|569274>735567(12):735567>561180(3):735567>689881(2):SYSTEM>532260(100)|1553184699.652449000|92a2")
+    assert_equal false, verify_transactions(map)
+  end
 
 end
