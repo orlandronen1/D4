@@ -11,6 +11,6 @@ maps = create_maps(text)
 
 # We can set the error if this returns false and print it out after. 
 # It should never return true, will only let us know if it fails.
-puts "error 1" if verify_block_number(maps) == false
-puts "error 2" if verify_prev_hash_match(maps) == false
+verify_block_number(maps)
+verify_prev_hash_match(maps)
 
