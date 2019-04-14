@@ -130,7 +130,7 @@ def verify_time_stamp(maps)
       puts "Line #{i}: Invalid number of time stamps.\nBLOCKCHAIN INVALID"
       return false
     end
-    unless curr_time[1].to_i > prev_time[1].to_i
+    unless curr_time[1].to_i > prev_time[1].to_i || curr_time[0].to_i > prev_time[0].to_i
       puts "Line #{i}: Previous timestamp #{maps[i - 1][:time_stamp]} >= new timestamp #{maps[i][:time_stamp]}."
       puts 'BLOCKCHAIN INVALID'
       return false
