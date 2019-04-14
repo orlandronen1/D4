@@ -95,3 +95,13 @@ def verify_transactions(maps)
   # really rubocop
   balance_map = balance_map
 end
+
+def verify_time_stamp(maps)
+  (1...maps.length).each do |i|
+    curr_time = maps[i][:time_stamp].split('.')
+    puts false unless curr_time.length == 2
+    prev_time = maps[i - 1][:time_stamp].split('.')
+    puts false unless prev_time.length == 2
+    puts false unless curr_time[1].to_i > prev_time[1].to_i
+  end
+end
