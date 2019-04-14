@@ -14,5 +14,7 @@ maps = create_maps(text)
 verify_block_number(maps)
 verify_prev_hash_match(maps)
 balance = verify_transactions(maps)
+verify_time_stamp(maps)
+verify_hash(text)
 
 
