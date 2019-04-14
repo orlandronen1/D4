@@ -50,7 +50,33 @@ def verify_prev_hash_match(maps)
     # check the formatting of the hash
     prev_hash.delete!('abcdef0123456789')
     curr_hash.delete!('abcdef0123456789')
-    return false if prev_hash.empty?
-    return false if curr_hash.empty?
+    return false unless prev_hash.empty?
+    return false unless curr_hash.empty?
   end
+end
+
+# following steps of number 5 in verification flow doc
+def verify_transactions(maps)
+  maps.each do |x|
+    trans = x[:transactions].split(':')
+    trans.each_with_index do |y, i|
+      # verifing from  address vaild/correct format
+      from_addr = y[0..5]
+      from_addr.delete!('0123456789')
+      return false unless from_addr.empty?
+      # verifing > in position 7
+      return false unless y[6] == '>'
+      # verifing to address valid/correct format
+      to_addr = y[7..12]
+      to_addr.delete!('0123456789')
+      return false unless to_addr.empty?
+      open_paren = y[13]
+      closed_paren = y[y.length - 1]
+      return false unless open_paren == '('
+      return false unless closed_paren == ')'
+      amount_num = y[14..y.length - 2]
+      amount_num.delete!('0123456789')
+      return false unless amount_num.empty?
+    end
+
 end
