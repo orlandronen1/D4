@@ -16,5 +16,6 @@ verify_prev_hash_match(maps)
 balance = verify_transactions(maps)
 verify_time_stamp(maps)
 verify_hash(text)
+print_output(balance)
 
 

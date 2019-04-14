@@ -91,8 +91,6 @@ def verify_transactions(maps)
       # puts balance_map[to_addr]
       to_addr.delete!('0123456789')
       return false unless to_addr.empty?
-      # open_paren = y[13]
-      # closed_paren = y[y.length - 1]
       return false unless y[13] == '('
       return false unless y[y.length - 1] == ')'
 
@@ -133,4 +131,16 @@ def verify_hash(text)
   
   # If nothing wrong, return true
   true
+end
+
+def print_output(balance_map)
+  print_array = []
+  balance_map = balance_map.sort
+  balance_map.each do |k, v|
+    next if k == 'SYSTEM'
+
+    puts "Invalid block, address #{k} has #{v} billcoins!" if v.negative?
+    print_array.push("#{k}: #{v} billcoins\n") if v.positive?
+  end
+  puts print_array
 end
