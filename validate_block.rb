@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'hash'
+
 # above is a demand made by rubocop
 def create_maps(text)
   maps = []
@@ -103,4 +105,25 @@ def verify_transactions(maps)
   end
   # really rubocop
   balance_map = balance_map
+end
+
+def verify_time_stamp(maps)
+  (1...maps.length).each do |i|
+    curr_time = maps[i][:time_stamp].split('.')
+    return false unless curr_time.length == 2
+
+    prev_time = maps[i - 1][:time_stamp].split('.')
+    return false unless prev_time.length == 2
+    return false unless curr_time[1].to_i > prev_time[1].to_i
+  end
+end
+
+def verify_hash(text)
+  array = text.split("\n")
+  array.each do |s|
+    pipe_index = s.rindex('|')
+    hash_str = s[0...pipe_index]
+    hex = hash_block(hash_str)
+    return false unless hex == s[pipe_index + 1..-1]
+  end
 end
