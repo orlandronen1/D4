@@ -25,7 +25,7 @@ def hash_block(block)
   hash_calc = 0
   chars.each do |c|
     if $char_hashes[c].nil?
-      $char_hashes[c] = ( ((c**3000) + (c**c) - (3**c)) * (7**c) )
+      $char_hashes[c] = ( ((c**3000) + (c**c) - (3**c)) * (7**c) ) % 65536
     end
     hash_calc += $char_hashes[c]
   end
