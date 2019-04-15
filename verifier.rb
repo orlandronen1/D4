@@ -5,15 +5,15 @@ require 'flamegraph'
 require_relative 'hash'
 require_relative 'validate_block'
 
-Flamegraph.generate("graph.html") do
+Flamegraph.generate('graph.html') do
   # Main file for the system
   exit 1 unless check_args ARGV
-  
+
   # Open the file and pass the text to validate_block
   text = File.open(ARGV[0]).read
   maps = create_maps(text)
 
-  # We can set the error if this returns false and print it out after. 
+  # We can set the error if this returns false and print it out after.
   # It should never return true, will only let us know if it fails.
   exit 1 unless verify_block_number(maps)
   exit 1 unless verify_prev_hash_match(maps)
