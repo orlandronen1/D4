@@ -18,6 +18,10 @@ def create_maps(text)
     return false if elem.length != 5
 
     kv_map = { id: elem[0], prev_hash: elem[1], transactions: elem[2], time_stamp: elem[3], hash: elem[4] }
+    kv_map.each do |key, val|
+      return false if val == ''
+      return false if key == ''
+    end
     maps.push(kv_map)
   end
   # sneaky way to return without pissing off rubocop
@@ -32,6 +36,9 @@ def verify_block_number(maps)
       return false
     end
   end
+
+  # If nothing wrong, return true
+  true
 end
 
 # Split the array on | and get the second element of the array
@@ -72,6 +79,9 @@ def verify_prev_hash_match(maps)
       return false
     end
   end
+
+  # If nothing wrong, return true
+  true
 end
 
 # following steps of number 5 in verification flow doc
@@ -130,12 +140,14 @@ def verify_time_stamp(maps)
       puts "Line #{i}: Invalid number of time stamps.\nBLOCKCHAIN INVALID"
       return false
     end
-    unless curr_time[1].to_i > prev_time[1].to_i
+    unless curr_time[1].to_i > prev_time[1].to_i || curr_time[0].to_i > prev_time[0].to_i
       puts "Line #{i}: Previous timestamp #{maps[i - 1][:time_stamp]} >= new timestamp #{maps[i][:time_stamp]}."
       puts 'BLOCKCHAIN INVALID'
       return false
     end
   end
+  # If nothing wrong, return true
+  true
 end
 
 def verify_hash(text)
@@ -150,6 +162,8 @@ def verify_hash(text)
       return false
     end
   end
+  # If nothing wrong, return true
+  true
 end
 
 def print_output(balance_map, last_line)
