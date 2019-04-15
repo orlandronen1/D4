@@ -3,7 +3,7 @@ require 'minitest/autorun'
 require_relative 'hash'
 
 # Test file for hash_test.rb
-class MethodsTest < Minitest::Test
+class HashTest < Minitest::Test
 
     # UNIT TESTS FOR METHOD check_args(args)
     # Equivalence classes:

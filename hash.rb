@@ -1,3 +1,6 @@
+# Hash of characters that have been encountered
+$char_hashes = Hash.new
+
 # Checks command line arguments. If there isn't a single argument and it isn't the
 # the name of an existing file, return false. Else, return true.
 def check_args(args)
@@ -18,7 +21,12 @@ end
 def hash_block(block)
   chars = block.unpack('U*') # Get array of UTF-8 values of each char in block
   hash_calc = 0
-  chars.each { |c| hash_calc += ( ((c**3000) + (c**c) - (3**c)) * (7**c) )}
+  chars.each do |c|
+    if $char_hashes[c].nil?
+      $char_hashes[c] = ( ((c**3000) + (c**c) - (3**c)) * (7**c) )
+    end
+    hash_calc += $char_hashes[c]
+  end
   hash_calc %= 65536  # Modulo
   hash_calc.to_s(16)  # Convert to string of hexadecimal representation
 end
