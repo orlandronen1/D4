@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 # Hash of characters that have been encountered
 $char_hashes = Hash.new
 
 # Checks command line arguments. If there isn't a single argument and it isn't the
 # the name of an existing file, return false. Else, return true.
 def check_args(args)
-    # If argument is an array and of length one
-    if args.is_a? Array and args.length == 1 and File.exist? args[0]
-        true
-    elsif args.is_a? String and File.exist? args
-        true
-    else
-      puts 'Usage: ruby verifier.rb <name_of_file>'
-      puts '     name_of_file = name of file to verify'
-      false
-    end     
+  # If argument is an array and of length one
+  if (args.is_a? Array) && (args.length == 1) && (File.exist? args[0])
+    true
+  elsif (args.is_a? String) && (File.exist? args)
+    true
+  else
+    puts 'Usage: ruby verifier.rb <name_of_file>'
+    puts '     name_of_file = name of file to verify'
+    false
+  end
 end
 
 # Calculates the hash for a block
