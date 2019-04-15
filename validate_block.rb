@@ -30,7 +30,7 @@ end
 
 def verify_block_number(maps)
   maps.each_with_index do |x, i|
-    if x[:id].to_i != i or x[:id].to_i.to_s != x[:id]
+    if x[:id].to_i != i || x[:id].to_i.to_s != x[:id]
       puts "Line #{i}: Invalid block number #{x[:id]}, should be #{i}"
       puts 'BLOCKCHAIN INVALID'
       return false
@@ -130,17 +130,17 @@ end
 
 def verify_time_stamp(maps)
   (1...maps.length).each do |i|
-    curr_time = maps[i][:time_stamp].split('.')
-    unless curr_time.length == 2
+    curr_t = maps[i][:time_stamp].split('.')
+    unless curr_t.length == 2
       puts "Line #{i}: Invalid number of time stamps.\nBLOCKCHAIN INVALID"
       return false
     end
-    prev_time = maps[i - 1][:time_stamp].split('.')
-    unless prev_time.length == 2
+    prev_t = maps[i - 1][:time_stamp].split('.')
+    unless prev_t.length == 2
       puts "Line #{i}: Invalid number of time stamps.\nBLOCKCHAIN INVALID"
       return false
     end
-    unless curr_time[0].to_i > prev_time[0].to_i or (curr_time[0].to_i == prev_time[0].to_i and curr_time[1].to_i > prev_time[1].to_i)
+    unless curr_t[0].to_i > prev_t[0].to_i || (curr_t[0].to_i == prev_t[0].to_i && curr_t[1].to_i > prev_t[1].to_i)
       puts "Line #{i}: Previous timestamp #{maps[i - 1][:time_stamp]} >= new timestamp #{maps[i][:time_stamp]}."
       puts 'BLOCKCHAIN INVALID'
       return false
