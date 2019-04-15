@@ -5,7 +5,7 @@ require 'flamegraph'
 require_relative 'hash'
 require_relative 'validate_block'
 
-Flamegraph.generate('graph.html') do
+Flamegraph.generate("optimized-graph.html") do
   # Main file for the system
   exit 1 unless check_args ARGV
 
